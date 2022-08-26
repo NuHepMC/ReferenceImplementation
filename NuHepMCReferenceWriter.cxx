@@ -50,7 +50,7 @@ std::shared_ptr<HepMC3::GenRunInfo> BuildGenRunInfo() {
       {NuHepMC::VertexStatus::kFSIAbs,
        {"FSIAbs", "Final state absorption interaction"}},
   };
-  NuHepMC::GenRunInfo::WriteVertexStatusIDDefinitions(run_info, ProcessIDs);
+  NuHepMC::GenRunInfo::WriteVertexStatusIDDefinitions(run_info, VertexStatuses);
 
   // G.R.6
   std::map<int, std::pair<std::string, std::string>> ParticleStatuses = {
@@ -74,7 +74,7 @@ std::shared_ptr<HepMC3::GenRunInfo> BuildGenRunInfo() {
       "NuHepMC.Conventions",
       std::make_shared<HepMC3::VectorStringAttribute>(
           std::vector<std::string>{"G.C.1", "G.C.2", "G.C.4", "G.C.5", "E.C.1",
-                                   "E.C.2", "E.C.3", "E.C.4", "E.C.5"}));
+                                   "E.C.2", "E.C.3", "E.C.5", "E.C.6"}));
 
   // G.C.2
   run_info->add_attribute("NuHepMC.Exposure.NEvents",
@@ -176,10 +176,10 @@ int main() {
 
   auto evt = BuildEvent(run_info);
   evt.set_event_number(1);
-  // E.R.1
-  writer->write_event(evt);
   // E.R.2
   evt.add_attribute("ProcID", std::make_shared<HepMC3::IntAttribute>(200));
+  // E.R.1
+  writer->write_event(evt);
 
   evt.set_event_number(2);
   evt.add_attribute("ProcID", std::make_shared<HepMC3::IntAttribute>(300));

@@ -1,7 +1,7 @@
 ################################################################################
 # MIT License
 
-# Copyright (c) 2022 NuHepMC/Spec
+# Copyright (c) 2022 NuHepMC/ReferenceImplementation
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -28,9 +28,9 @@ cmake_minimum_required (VERSION 3.14 FATAL_ERROR)
 find_program(CMAKE_C_COMPILER NAMES $ENV{CC} gcc PATHS ENV PATH NO_DEFAULT_PATH)
 find_program(CMAKE_CXX_COMPILER NAMES $ENV{CXX} g++ PATHS ENV PATH NO_DEFAULT_PATH)
 
-project(NuHepMC_SpecTools)
+project(NuHepMC_RefImpl)
 
-set (NuHepMC_SpecTools_VERSION 0.0.1)
+set (NuHepMC_RefImpl_VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 17)
 

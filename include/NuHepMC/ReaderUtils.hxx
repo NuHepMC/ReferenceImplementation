@@ -1,6 +1,8 @@
 #pragma once
 
+#include "HepMC3/GenEvent.h"
 #include "HepMC3/GenRunInfo.h"
+#include "HepMC3/GenVertex.h"
 
 #include "HepMC3/Attribute.h"
 
@@ -10,6 +12,7 @@
 
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -36,9 +39,29 @@ auto CheckedAttributeValue(T const &obj, std::string const &name) {
     mae << "Failed to find attribute: " << name;
     mae << "\n\tKnown attributes: \n";
     for (auto const &a : obj->attribute_names()) {
-      mae << "\t\t" << a;
+      mae << "\t\t" << a << "\n";
     }
     throw mae;
+  }
+
+  if (!obj->template attribute<AT>(name)) {
+    throw AttributeTypeException()
+        << name << ": " << obj->attribute_as_string(name);
+  }
+
+  return obj->template attribute<AT>(name)->value();
+}
+
+template <typename AT, typename T>
+auto CheckedAttributeValue(T const &obj, std::string const &name,
+                           decltype(obj->template attribute<AT>(name)->value())
+                               const defval) {
+  if (!obj) {
+    throw NullObjectException();
+  }
+
+  if (!HasAttribute(obj, name)) {
+    return defval;
   }
 
   if (!obj->template attribute<AT>(name)) {
@@ -101,5 +124,28 @@ ReadNuHepMCVersion(std::shared_ptr<HepMC3::GenRunInfo> &run_info) {
                                        run_info, "NuHepMC.Version.Patch")};
 }
 
+std::set<std::string>
+ReadConventions(std::shared_ptr<HepMC3::GenRunInfo> &run_info) {
+  std::set<std::string> conventions;
+  for (auto &c : CheckedAttributeValue<HepMC3::VectorStringAttribute>(
+           run_info, "NuHepMC.Conventions", std::vector<std::string>{})) {
+    conventions.insert(c);
+  }
+  return conventions;
+}
+
 } // namespace GenRunInfo
+
+namespace GenEvent {
+HepMC3::ConstGenVertexPtr GetPrimaryVertex(HepMC3::GenEvent const &evt) {
+
+  for (auto const &vtx : evt.vertices()) {
+    if (vtx->status() == NuHepMC::VertexStatus::kPrimaryVertex) {
+      return vtx;
+    }
+  }
+
+  return nullptr;
+}
+}; // namespace GenEvent
 } // namespace NuHepMC
