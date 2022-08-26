@@ -4,6 +4,9 @@
 
 #include "HepMC3/Attribute.h"
 
+#include "NuHepMC/Constants.hxx"
+#include "NuHepMC/Types.hxx"
+
 #include <map>
 #include <memory>
 #include <string>
@@ -15,7 +18,7 @@ namespace GenRunInfo {
 
 inline void WriteIDDefinitions(
     std::shared_ptr<HepMC3::GenRunInfo> &run_info,
-    std::map<int, std::pair<std::string, std::string>> const &Definitions,
+    StatusCodeDescriptors const &Definitions,
     std::pair<std::string, std::string> const &AttributeStubs) {
 
   std::vector<int> IDs;
@@ -44,14 +47,14 @@ inline void WriteIDDefinitions(
 // G.R.4
 inline void WriteProcessIDDefinitions(
     std::shared_ptr<HepMC3::GenRunInfo> &run_info,
-    std::map<int, std::pair<std::string, std::string>> const &Definitions) {
+    StatusCodeDescriptors const &Definitions) {
   WriteIDDefinitions(run_info, Definitions, {"ProcessIDs", "ProcessInfo"});
 }
 
 // G.R.5
 inline void WriteVertexStatusIDDefinitions(
     std::shared_ptr<HepMC3::GenRunInfo> &run_info,
-    std::map<int, std::pair<std::string, std::string>> const &Definitions) {
+    StatusCodeDescriptors const &Definitions) {
   WriteIDDefinitions(run_info, Definitions,
                      {"VertexStatusIDs", "VertexStatusInfo"});
 }
@@ -59,7 +62,7 @@ inline void WriteVertexStatusIDDefinitions(
 // G.R.6
 inline void WriteParticleStatusIDDefinitions(
     std::shared_ptr<HepMC3::GenRunInfo> &run_info,
-    std::map<int, std::pair<std::string, std::string>> const &Definitions) {
+    StatusCodeDescriptors const &Definitions) {
   WriteIDDefinitions(run_info, Definitions,
                      {"ParticleStatusIDs", "ParticleStatusInfo"});
 }
@@ -75,14 +78,4 @@ inline void WriteNuHepMCVersion(std::shared_ptr<HepMC3::GenRunInfo> &run_info) {
 }
 
 } // namespace GenRunInfo
-
-namespace VertexStatus {
-  const int kPrimaryVertex = 1;
-}
-
-namespace ParticleStatus {
-  const int kUndecayedPhysicalParticle = 1;
-  const int kIncomingBeamParticle = 4;
-}
-
 } // namespace NuHepMC

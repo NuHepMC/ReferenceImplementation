@@ -98,6 +98,10 @@ CPMAddPackage(
       "HEPMC3_BUILD_STATIC_LIBS OFF"
 )
 
-add_executable(reference_implementation reference_implementation.cxx)
-target_link_libraries(reference_implementation HepMC3)
-target_include_directories(reference_implementation PUBLIC ${CMAKE_SOURCE_DIR}/include)
+add_executable(NuHepMCReferenceWriter NuHepMCReferenceWriter.cxx)
+target_link_libraries(NuHepMCReferenceWriter HepMC3)
+target_include_directories(NuHepMCReferenceWriter PUBLIC ${CMAKE_SOURCE_DIR}/include)
+
+add_executable(NuHepMCReferenceValidator NuHepMCReferenceValidator.cxx)
+target_link_libraries(NuHepMCReferenceValidator HepMC3)
+target_include_directories(NuHepMCReferenceValidator PUBLIC ${CMAKE_SOURCE_DIR}/include)

@@ -7,7 +7,7 @@
 
 #include "HepMC3/WriterAscii.h"
 
-#include "NuHepMC/utils.hxx"
+#include "NuHepMC/WriterUtils.hxx"
 
 // E.C.4
 const double cm2_to_pb = 1E36;
@@ -17,7 +17,7 @@ namespace VertexStatus {
 const int kFSIAbs = 2;
 }
 namespace ParticleStatus {
-const int kFSIState = 11;
+const int kFSIState = 21;
 }
 } // namespace NuHepMC
 
@@ -45,16 +45,21 @@ std::shared_ptr<HepMC3::GenRunInfo> BuildGenRunInfo() {
 
   // G.R.5
   std::map<int, std::pair<std::string, std::string>> VertexStatuses = {
-      {1, {"PrimVer", "The primary vertex or hard scatter"}},
-      {2, {"FSIAbs", "Final state absorption interaction"}},
+      {NuHepMC::VertexStatus::kPrimaryVertex,
+       {"PrimVer", "The primary vertex or hard scatter"}},
+      {NuHepMC::VertexStatus::kFSIAbs,
+       {"FSIAbs", "Final state absorption interaction"}},
   };
   NuHepMC::GenRunInfo::WriteVertexStatusIDDefinitions(run_info, ProcessIDs);
 
   // G.R.6
   std::map<int, std::pair<std::string, std::string>> ParticleStatuses = {
-      {1, {"FinalState", "Undecayed physical particle"}},
-      {4, {"InitialState", "Incoming beam particle"}},
-      {11, {"FSI", "Final state interaction steps"}},
+      {NuHepMC::ParticleStatus::kUndecayedPhysicalParticle,
+       {"FinalState", "Undecayed physical particle"}},
+      {NuHepMC::ParticleStatus::kIncomingBeamParticle,
+       {"InitialState", "Incoming beam particle"}},
+      {NuHepMC::ParticleStatus::kFSIState,
+       {"FSI", "Final state interaction steps"}},
   };
   NuHepMC::GenRunInfo::WriteParticleStatusIDDefinitions(run_info,
                                                         ParticleStatuses);
@@ -105,7 +110,7 @@ HepMC3::GenEvent BuildEvent(std::shared_ptr<HepMC3::GenRunInfo> &run_info) {
   HepMC3::GenParticlePtr ISNeutron = std::make_shared<HepMC3::GenParticle>(
       HepMC3::FourVector{1.5255172492130473e+02, 8.9392830847276528e+01,
                          6.4870597568257821e+01, 9.5825554558124941e+02},
-      2112, NuHepMC::ParticleStatus::kIncomingBeamParticle);
+      2112, NuHepMC::ParticleStatus::kTargetParticle);
   // E.R.6
   HepMC3::GenParticlePtr ISnumu = std::make_shared<HepMC3::GenParticle>(
       HepMC3::FourVector{0.0000000000000000e+00, 0.0000000000000000e+00,
