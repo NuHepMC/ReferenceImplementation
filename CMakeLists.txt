@@ -81,9 +81,9 @@ include(CPM)
 
 CPMAddPackage(
     NAME HepMC3
-    VERSION 3.2.5
+    VERSION 3.2.6
     GIT_REPOSITORY "https://gitlab.cern.ch/hepmc/HepMC3.git"
-    GIT_TAG 3.2.5
+    GIT_TAG 3.2.6
     OPTIONS
       "HEPMC3_CXX_STANDARD ${CMAKE_CXX_STANDARD}"
       "HEPMC3_ENABLE_SEARCH OFF"
@@ -99,11 +99,11 @@ CPMAddPackage(
 )
 
 add_executable(NuHepMCReferenceWriter NuHepMCReferenceWriter.cxx)
-target_link_libraries(NuHepMCReferenceWriter HepMC3)
+target_link_libraries(NuHepMCReferenceWriter HepMC3::All)
 target_include_directories(NuHepMCReferenceWriter PUBLIC 
   ${CMAKE_CURRENT_LIST_DIR}/include)
 
 add_executable(NuHepMCReferenceValidator NuHepMCReferenceValidator.cxx)
-target_link_libraries(NuHepMCReferenceValidator HepMC3)
+target_link_libraries(NuHepMCReferenceValidator HepMC3::All)
 target_include_directories(NuHepMCReferenceValidator PUBLIC 
   ${CMAKE_CURRENT_LIST_DIR}/include)
