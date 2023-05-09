@@ -49,7 +49,7 @@ elseif(NOT DEFINED CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE RELWITHDEBINFO)
 endif()
 
-LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
+LIST(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake/Modules)
 
 #### RPATH handling #####
 
@@ -77,7 +77,7 @@ ENDIF("${isSystemDir}" STREQUAL "-1")
 
 ######################### Dependencies
 
-include(${CMAKE_SOURCE_DIR}/CPM.cmake)
+include(CPM)
 
 CPMAddPackage(
     NAME HepMC3
@@ -100,8 +100,10 @@ CPMAddPackage(
 
 add_executable(NuHepMCReferenceWriter NuHepMCReferenceWriter.cxx)
 target_link_libraries(NuHepMCReferenceWriter HepMC3)
-target_include_directories(NuHepMCReferenceWriter PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(NuHepMCReferenceWriter PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/include)
 
 add_executable(NuHepMCReferenceValidator NuHepMCReferenceValidator.cxx)
 target_link_libraries(NuHepMCReferenceValidator HepMC3)
-target_include_directories(NuHepMCReferenceValidator PUBLIC ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(NuHepMCReferenceValidator PUBLIC 
+  ${CMAKE_CURRENT_LIST_DIR}/include)
